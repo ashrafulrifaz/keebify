@@ -5,11 +5,21 @@
   --foreground: #171717;
 }
 
+@theme {
+  /* --font-main: var(--font-jakarta); */
+  --color-primary: #E76F51;
+  --color-secondary: #F8F8F8;
+  /* --color-accent: #464646; */
+  --color-background: #FDFDFF;
+  /* --color-text: #000000; */
+  --color-desc: #464646;
+  --color-border: #F8F8F8;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-main: var(--font-poppins), sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +32,5 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-main);
 }
