@@ -1,9 +1,14 @@
+import Hero from '@/components/Sections/Hero/Hero';
+import NewArrivals from '@/components/Sections/NewArrivals/NewArrivals';
 import React from 'react';
 
 const page = () => {
     return (
         <div>
-            hello
+            <Hero />
+            <div className='px-12'>
+                <NewArrivals />
+            </div>
         </div>
     );
 };
