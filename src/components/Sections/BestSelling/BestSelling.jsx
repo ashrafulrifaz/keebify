@@ -76,10 +76,10 @@ const keyboards = [
     }
 ];
 
-const NewArrivals = () => {
+const BestSelling = () => {
     return (
         <div className='py-10'>
-            <h3 className='capitalize text-center text-xl font-medium'>new arrivals</h3>
+            <h3 className='capitalize text-center text-xl font-medium'>best selling</h3>
             <div className="grid grid-cols-4 gap-5 mt-8">
                 {
                     keyboards?.slice(0, 4).map(keyboard => (
@@ -102,4 +102,4 @@ const NewArrivals = () => {
     );
 };
 
-export default NewArrivals;
+export default BestSelling;
