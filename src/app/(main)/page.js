@@ -1,4 +1,5 @@
 import BestSelling from '@/components/Sections/BestSelling/BestSelling';
+import CTA from '@/components/Sections/CTA/CTA';
 import Hero from '@/components/Sections/Hero/Hero';
 import NewArrivals from '@/components/Sections/NewArrivals/NewArrivals';
 import Testimonials from '@/components/Sections/Testimonials/Testimonials';
@@ -12,6 +13,7 @@ const page = () => {
                 <NewArrivals />
                 <BestSelling />
                 <Testimonials />
+                <CTA />
             </div>
         </div>
     );
