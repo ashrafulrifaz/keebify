@@ -33,7 +33,7 @@ const reviews = [
 
 const Testimonials = () => {
     return (
-        <div className="py-10">
+        <div className="pt-10 pb-20">
             <h3 className='capitalize text-center text-xl font-medium'>What our customers says</h3>
             <div className="mt-6 grid grid-cols-3 gap-6">
                 {

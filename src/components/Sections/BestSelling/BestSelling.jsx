@@ -29,7 +29,7 @@ const keyboards = [
     },
     {
         id: 5,
-        image: "",
+        image: "https://res.cloudinary.com/db30o33kz/image/upload/v1785846044/AULA_F75_Max_Driver_Background_Removed_yndmgl.png",
         price: 89.99,
         name: "Compact 60",
         colors: [
@@ -41,7 +41,7 @@ const keyboards = [
     },
     {
         id: 6,
-        image: "",
+        image: "https://res.cloudinary.com/db30o33kz/image/upload/v1785846044/AULA_F75_Max_Driver_Background_Removed_yndmgl.png",
         price: 249.99,
         name: "Orion Full-Size",
         colors: [
@@ -52,7 +52,7 @@ const keyboards = [
     },
     {
         id: 7,
-        image: "",
+        image: "https://res.cloudinary.com/db30o33kz/image/upload/v1785846044/AULA_F75_Max_Driver_Background_Removed_yndmgl.png",
         price: 159.99,
         name: "Zephyr Low-Profile",
         colors: [
@@ -64,7 +64,7 @@ const keyboards = [
     },
     {
         id: 8,
-        image: "",
+        image: "https://res.cloudinary.com/db30o33kz/image/upload/v1785846044/AULA_F75_Max_Driver_Background_Removed_yndmgl.png",
         price: 219.99,
         name: "Vantage Wireless 65",
         colors: [
@@ -91,7 +91,7 @@ const BestSelling = () => {
                 <button className='bg-[#f8f8f8] text-black border border-[#eaeaea] pl-3.5 p-1 capitalize font-medium rounded-xl flex items-center gap-3 cursor-pointer mx-auto'>
                     <span>See More collections</span>
                     <div className='bg-primary text-white rounded-lg p-2'>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" color="#ffffff" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" color="#ffffff" fill="none" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M12 18.502V5.00195"></path>
                             <path d="M18 13.002C18 13.002 13.5811 19.0019 12 19.002C10.4188 19.002 6 13.002 6 13.002"></path>
                         </svg>
