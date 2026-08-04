@@ -44,7 +44,9 @@ const Header = () => {
                 </nav>
             </div>
             <div className="flex justify-center items-center">
-                <Image src={'/logo.png'} alt="Logo" width={100} height={100} className='w-32 h-auto' />
+                <Link href={'/'}>
+                    <Image src={'/logo.png'} alt="Logo" width={100} height={100} className='w-32 h-auto' />
+                </Link>
             </div>
             <div className='flex justify-end items-center gap-3'>
                 <Link href="/cart" className='border border-border p-1.5 bg-secondary rounded-full'>
