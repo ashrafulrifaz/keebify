@@ -4,7 +4,7 @@ import React from 'react';
 
 const Footer = () => {
     return (
-        <div className='py-8 px-12 bg-[#FCF8ED] mt-20 grid grid-cols-6 gap-5 rounded-t-4xl'>
+        <div className='py-12 px-12 bg-[#FCF8ED] mt-20 grid grid-cols-6 gap-5 rounded-t-4xl'>
             <div className='col-span-2'>
                 <Image src={'/assets/logo.png'} alt='logo' width={100} height={70} className='w-32 h-auto' />
                 <p className='text-[#464646] text-[16px]'>Your one-stop shop for keyboards, switches, and keycaps.</p>
