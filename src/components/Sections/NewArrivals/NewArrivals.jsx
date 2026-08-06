@@ -1,5 +1,7 @@
+'use client'
 import React from 'react';
 import ProductCard from '../../MiniComp/ProductCard';
+import useServices from '@/hooks/useServices';
 
 const keyboards = [
     {
@@ -77,13 +79,15 @@ const keyboards = [
 ];
 
 const NewArrivals = () => {
+    const {products} = useServices()
+
     return (
         <div className='py-10'>
             <h3 className='capitalize text-center text-xl font-medium'>new arrivals</h3>
             <div className="grid grid-cols-4 gap-5 mt-8">
                 {
-                    keyboards?.slice(0, 4).map(keyboard => (
-                        <ProductCard key={keyboard.id} keyboard={keyboard} />
+                    products?.slice(0, 4).map((item, idx) => (
+                        <ProductCard key={idx} item={item} />
                     ))
                 }
             </div>
