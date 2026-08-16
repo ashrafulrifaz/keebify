@@ -3,7 +3,7 @@ import React from 'react';
 
 const Hero = () => {
     return (
-        <div className='py-10 relative h-[95vh] overflow-hidden'>
+        <div className='py-10 relative h-[95vh] overflow-hidden bg-[url("https://res.cloudinary.com/db30o33kz/image/upload/v1786861105/banner-bg_ew8pnn.png")]'>
             <div>
                 <h1 className='text-6xl font-bold text-center'>Keyboard for Every Need</h1>
                 <button className='bg-primary text-white pl-3.5 p-1 capitalize font-medium rounded-xl flex items-center gap-3 cursor-pointer mt-10 mx-auto'>
@@ -33,10 +33,7 @@ const Hero = () => {
                     <h3 className='font-medium text-base mt-2'>$45</h3>
                 </div>
             </div>
-            <div className="absolute bottom-0 w-full h-60" style={{
-            background:
-                "linear-gradient(180deg, rgba(253,253,255,0) 0%, rgba(178,178,179,0.75) 50%, rgba(132,132,132,0.93) 86%, rgba(114,114,114,1) 100%)",
-            }}></div>
+            <Image src="/image-1.png" alt="Hero Image" width={800} height={400} className='absolute -bottom-10 w-1/2 h-auto rotate-[70deg] left-2/5 transform -translate-x-2/5' />
         </div>
     );
 };

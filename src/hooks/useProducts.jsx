@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 
-const useServices = () => {
+const useProducts = () => {
   const { isPending, error, data: products } = useQuery({
     queryKey: ['products'],
     queryFn: () =>
@@ -12,4 +12,4 @@ const useServices = () => {
   return { products, isPending, error };
 };
 
-export default useServices;
+export default useProducts;
