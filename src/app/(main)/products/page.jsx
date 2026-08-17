@@ -1,5 +1,6 @@
 import ProductCategories from '@/components/ProductPage/Categories/ProductCategories';
 import PriceRange from '@/components/ProductPage/Filtering/PriceRange/PriceRange';
+import ProductType from '@/components/ProductPage/Filtering/ProductType/ProductType';
 import SearchProducts from '@/components/ProductPage/Search/SearchProducts';
 import React from 'react';
 
@@ -14,8 +15,9 @@ const page = () => {
             </div>
 
             <div className="grid grid-cols-4 gap-5 mt-7">
-                <div className="space-y-3">
+                <div className="space-y-4">
                     <PriceRange />
+                    <ProductType />
                 </div>
                 <div className="col-span-3"></div>
             </div>
