@@ -37,7 +37,7 @@ const Header = () => {
                     <ul className="flex items-center gap-3">
                         {
                             navItems.map( item => (
-                                <li key={item.id}><Link href={item.link} className={`text-sm block ${pathname === item.link ? 'bg-primary text-white font-medium rounded-full px-3 py-1.5' : ''}`}>{item.name}</Link></li>
+                                <li key={item.id}><Link href={item.link} className={`text-sm block ${pathname === item.link ? 'bg-primary text-white font-medium rounded-full px-2.5 py-2' : ''}`}>{item.name}</Link></li>
                             ))
                         }
                     </ul>
