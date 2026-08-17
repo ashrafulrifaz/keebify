@@ -1,3 +1,4 @@
+import AllProducts from '@/components/ProductPage/AllProducts/AllProducts';
 import ProductCategories from '@/components/ProductPage/Categories/ProductCategories';
 import PriceRange from '@/components/ProductPage/Filtering/PriceRange/PriceRange';
 import ProductBrand from '@/components/ProductPage/Filtering/ProductBrand/ProductBrand';
@@ -21,7 +22,9 @@ const page = () => {
                     <ProductType />
                     <ProductBrand />
                 </div>
-                <div className="col-span-3"></div>
+                <div className="col-span-3">
+                    <AllProducts />
+                </div>
             </div>
         </div>
     );
