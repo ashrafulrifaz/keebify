@@ -14,8 +14,6 @@ const ProductType = () => {
         );
     };
 
-    console.log(selectedType)
-
     return (
         <div className="bg-border/50 rounded-xl p-4">
             <div className="flex justify-between items-center">
