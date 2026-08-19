@@ -1,4 +1,6 @@
 import CredentialsProvider from "next-auth/providers/credentials"
+import GoogleProvider from "next-auth/providers/google";
+import { signIn } from "next-auth/react";
 
 export const authOptions = {
   providers: [
@@ -26,6 +28,27 @@ export const authOptions = {
                 return null
             }
         }
+    }),
+    GoogleProvider({
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET
     })
   ],
+  callbacks: {
+    async signIn({user, account}) {
+        if(account.provider === 'google' || account.provider === 'apple') {
+            const res = await fetch('http://localhost:3001/auth/register', {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({
+                    name: user.name,
+                    email: user.email,
+                    image: user.image,
+                    provider: account.provider,
+                }),
+            })
+        }
+        return true
+    }
+  }
 }
