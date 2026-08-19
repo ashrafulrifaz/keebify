@@ -1,15 +1,44 @@
 'use client'
+import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
 const Signup = () => {
     const {register, handleSubmit, reset} = useForm()
+    const router = useRouter();
 
-    const onSubmit = (data) => {
-        console.log(data)
+    const onSubmit = async (data) => {
+        const res = await fetch('http://localhost:3001/auth/register', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+
+        if(!res.ok) {
+            console.log('error found')
+            return
+        }
+        
+        const result = await signIn('credentials', {
+            email: data.email,
+            password: data.password,
+            redirect: false
+        })
+
+        if(result?.error) {
+            console.log('error found')
+            return
+        }
+
+        reset()
+        router.push('/')
     }
+
     return (
         <div className='pl-10 h-full flex flex-col justify-center'>
             <h2 className='text-3xl font-semibold capitalize'>sign up</h2>
