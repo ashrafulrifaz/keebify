@@ -1,7 +1,14 @@
+'use client'
 import Image from 'next/image';
 import React from 'react';
+import { useForm } from 'react-hook-form';
 
 const SignIn = () => {
+    const {register, handleSubmit, reset} = useForm()
+
+    const onSubmit = (data) => {
+        console.log(data)
+    }
     return (
         <div className='pl-10 h-full flex flex-col justify-center'>
             <h2 className='text-3xl font-semibold capitalize'>sign in</h2>
@@ -18,9 +25,9 @@ const SignIn = () => {
             </div>
             <div className='h-[1px] w-[400px] bg-border my-7'></div>
             <p className='text-[#414141]'>Or continue with email address</p>
-            <form>
-                <input type="email" placeholder='Enter your email' className='border border-[#c4c4c4]/50 rounded-lg py-2 px-4 bg-border/50 w-[400px] mt-5' />
-                <input type="password" placeholder='Enter your password' className='border border-[#c4c4c4]/50 rounded-lg py-2 px-4 bg-border/50 w-[400px] mt-5' />
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <input type="email" placeholder='Enter your email' className='border border-[#c4c4c4]/50 rounded-lg py-2 px-4 bg-border/50 w-[400px] mt-5 focus:outline-0' {...register("email", {required: true})} />
+                <input type="password" placeholder='Enter your password' className='border border-[#c4c4c4]/50 rounded-lg py-2 px-4 bg-border/50 w-[400px] mt-5 focus:outline-0' {...register("password", {required: true})} />
                 <button className='bg-primary text-white font-medium capitalize rounded-xl py-2.5 w-[400px] cursor-pointer mt-6'>Sign In</button>
             </form>
         </div>
