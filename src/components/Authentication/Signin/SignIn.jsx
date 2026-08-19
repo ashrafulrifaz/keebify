@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -30,6 +31,7 @@ const SignIn = () => {
                 <input type="password" placeholder='Enter your password' className='border border-[#c4c4c4]/50 rounded-lg py-2 px-4 bg-border/50 w-[400px] mt-5 focus:outline-0' {...register("password", {required: true})} />
                 <button className='bg-primary text-white font-medium capitalize rounded-xl py-2.5 w-[400px] cursor-pointer mt-6'>Sign In</button>
             </form>
+            <p className='text-[#696969] mt-8'>Don{"'"}t have an account? <Link href='/signup' className='text-primary cursor-pointer font-medium'>Sign up</Link></p>
         </div>
     );
 };
