@@ -25,12 +25,14 @@ const SignIn = () => {
         reset()
         router.push('/')
     }
+
+
     return (
         <div className='pl-10 h-full flex flex-col justify-center'>
             <h2 className='text-3xl font-semibold capitalize'>sign in</h2>
             <p className='text-[#414141] mt-9'>Sign in with</p>
             <div className='mt-5 flex items-center gap-4'>
-                <button className='flex gap-3 items-center justify-center border border-[#c4c4c4]/50 rounded-lg py-2 px-4 bg-border/50 w-48 cursor-pointer font-medium'>
+                <button onClick={() => signIn('google', {callbackUrl: '/'})} className='flex gap-3 items-center justify-center border border-[#c4c4c4]/50 rounded-lg py-2 px-4 bg-border/50 w-48 cursor-pointer font-medium'>
                     <Image src={'https://res.cloudinary.com/db30o33kz/image/upload/v1786974993/google-2_rad9gx.png'} alt='google' width={50} height={20} className='w-5 h-5' />
                     <span>Google</span>
                 </button>
