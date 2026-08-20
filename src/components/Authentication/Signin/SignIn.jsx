@@ -35,7 +35,7 @@ const SignIn = () => {
                     <Image src={'https://res.cloudinary.com/db30o33kz/image/upload/v1786974993/google-2_rad9gx.png'} alt='google' width={50} height={20} className='w-5 h-5' />
                     <span>Google</span>
                 </button>
-                <button className='flex gap-3 items-center justify-center border border-[#c4c4c4]/50 rounded-lg py-2 px-4 bg-border/50 w-48 cursor-pointer font-medium'>
+                <button onClick={() => signIn('apple', {callbackUrl: '/'})} className='flex gap-3 items-center justify-center border border-[#c4c4c4]/50 rounded-lg py-2 px-4 bg-border/50 w-48 cursor-pointer font-medium'>
                     <Image src={'https://res.cloudinary.com/db30o33kz/image/upload/v1786968415/apple-logo_yqakun.png'} alt='apple' width={50} height={20} className='w-5 h-5' />
                     <span>Apple</span>
                 </button>
