@@ -26,7 +26,6 @@ const SignIn = () => {
         router.push('/')
     }
 
-
     return (
         <div className='pl-10 h-full flex flex-col justify-center'>
             <h2 className='text-3xl font-semibold capitalize'>sign in</h2>
