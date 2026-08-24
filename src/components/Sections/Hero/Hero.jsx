@@ -15,19 +15,19 @@ const Hero = () => {
                     </div>
                 </button>
                 <div>
-                    <Image src="/image-1.png" alt="Hero Image" width={800} height={400} className='absolute -bottom-20 w-1/2 h-auto rotate-[70deg] left-2/5 transform -translate-x-2/5' />
-                    <Image src="/image-2.png" alt="Hero Image" width={800} height={400} className='absolute -bottom-20 w-[55%] h-auto rotate-[-70deg] right-2/5 transform translate-x-2/5' />
+                    <Image src="/assets/image-1.png" alt="Hero Image" width={800} height={400} className='absolute -bottom-20 w-1/2 h-auto rotate-[70deg] left-2/5 transform -translate-x-2/5' />
+                    <Image src="/assets/image-2.png" alt="Hero Image" width={800} height={400} className='absolute -bottom-20 w-[55%] h-auto rotate-[-70deg] right-2/5 transform translate-x-2/5' />
                 </div>
             </div>
             <div className='p-1 rounded-xl border border-border bg-secondary w-60 h-24 grid grid-cols-5 gap-3 items-center absolute bottom-2/5 left-1/5 transform -translate-x-1/2'>
-                <Image src="/keyboard-1.jpg" alt="Hero Image" width={400} height={400} className='w-full h-full col-span-2 rounded-lg' />
+                <Image src="/assets/keyboard-1.jpg" alt="Hero Image" width={400} height={400} className='w-full h-full col-span-2 rounded-lg' />
                 <div className="col-span-3 items-center">
                     <h3 className='font-medium text-sm text-gray-800'>Universe Vitality Orange</h3>
                     <h3 className='font-medium text-base mt-2'>$59</h3>
                 </div>
             </div>
             <div className='p-1 rounded-xl border border-border bg-secondary w-60 h-24 grid grid-cols-5 gap-3 items-center absolute bottom-2/5 right-1/5 transform translate-x-1/2'>
-                <Image src="/keyboard-2.jpg" alt="Hero Image" width={400} height={400} className='w-full h-full col-span-2 rounded-lg' />
+                <Image src="/assets/keyboard-2.jpg" alt="Hero Image" width={400} height={400} className='w-full h-full col-span-2 rounded-lg' />
                 <div className="col-span-3 items-center">
                     <h3 className='font-medium text-sm text-gray-800'>Filco Majestouch Keyboard</h3>
                     <h3 className='font-medium text-base mt-2'>$45</h3>
