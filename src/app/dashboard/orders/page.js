@@ -1,4 +1,4 @@
-import ProductsTable from '@/components/DashboardComp/ProductsTable/ProductsTable';
+import OrdersTable from '@/components/DashboardComp/OrdersTable/OrdersTable';
 import Link from 'next/link';
 import React from 'react';
 
@@ -19,7 +19,7 @@ const page = () => {
                     </Link>
                 </div>
             </div>
-            <ProductsTable />
+            <OrdersTable />
         </div>
     );
 };

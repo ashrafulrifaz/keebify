@@ -1,6 +1,7 @@
 'use client'
 import Image from 'next/image';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 const STATUS_OPTIONS = ['Active', 'Draft', 'Out of Stock'];
 
@@ -29,7 +30,7 @@ const products = [
         stock: 150,
         status: 'Active',
     },
-    {
+        {
         id: 3,
         image: 'https://res.cloudinary.com/db30o33kz/image/upload/v1785846044/AULA_F75_Max_Driver_Background_Removed_yndmgl.png',
         name: 'Universe Vitality Orange',
@@ -58,23 +59,60 @@ const products = [
     },
 ];
 
-const StatusBadge = ({ status, onChange }) => {
+// Shared hook: computes dropdown position + open state + outside click
+const useDropdown = () => {
     const [open, setOpen] = useState(false);
-    const ref = useRef(null);
+    const triggerRef = useRef(null);
+    const menuRef = useRef(null);
+    const [coords, setCoords] = useState({ top: 0, left: 0, ready: false });
+
+    const toggle = () => {
+        setOpen((prev) => !prev);
+    };
+
+    useLayoutEffect(() => {
+        if (!open || !triggerRef.current) return;
+
+        const rect = triggerRef.current.getBoundingClientRect();
+        const menuHeight = menuRef.current?.offsetHeight ?? 0;
+        const spaceBelow = window.innerHeight - rect.bottom;
+        const shouldFlip = menuHeight > 0 && spaceBelow < menuHeight;
+
+        setCoords({
+            top: shouldFlip ? rect.top - menuHeight - 6 : rect.bottom + 6,
+            left: rect.left,
+            ready: true,
+        });
+    }, [open]);
 
     useEffect(() => {
+        if (!open) return;
         const handleClickOutside = (e) => {
-            if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+            if (
+                triggerRef.current &&
+                !triggerRef.current.contains(e.target) &&
+                menuRef.current &&
+                !menuRef.current.contains(e.target)
+            ) {
+                setOpen(false);
+            }
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+    }, [open]);
+
+    return { open, setOpen, triggerRef, menuRef, coords, toggle };
+};
+
+const StatusBadge = ({ status, onChange }) => {
+    const { open, setOpen, triggerRef, menuRef, coords, toggle } = useDropdown();
 
     return (
-        <div className="relative inline-block" ref={ref}>
+        <>
             <button
+                ref={triggerRef}
                 type="button"
-                onClick={() => setOpen((prev) => !prev)}
+                onClick={toggle}
                 className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium cursor-pointer transition-colors ${STATUS_STYLES[status]}`}
             >
                 {status}
@@ -83,8 +121,17 @@ const StatusBadge = ({ status, onChange }) => {
                 </svg>
             </button>
 
-            {open && (
-                <div className="absolute left-0 mt-1.5 w-40 bg-white rounded-xl border border-border shadow-lg shadow-black/5 py-1.5 z-20 overflow-hidden">
+            {open && typeof window !== 'undefined' && createPortal(
+                <div
+                    ref={menuRef}
+                    style={{
+                        position: 'fixed',
+                        top: coords.top,
+                        left: coords.left,
+                        visibility: coords.ready ? 'visible' : 'hidden',
+                    }}
+                    className="w-40 bg-white rounded-xl border border-border shadow-lg shadow-black/5 py-1.5 z-50 overflow-hidden"
+                >
                     {STATUS_OPTIONS.map((option) => (
                         <button
                             key={option}
@@ -98,46 +145,49 @@ const StatusBadge = ({ status, onChange }) => {
                             {option}
                         </button>
                     ))}
-                </div>
+                </div>,
+                document.body
             )}
-        </div>
+        </>
     );
 };
 
 const ActionMenu = () => {
-    const [open, setOpen] = useState(false);
-    const ref = useRef(null);
-
-    useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (ref.current && !ref.current.contains(e.target)) setOpen(false);
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+    const { open, setOpen, triggerRef, menuRef, coords, toggle } = useDropdown();
 
     return (
-        <div className="relative inline-block" ref={ref}>
+        <>
             <button
+                ref={triggerRef}
                 type="button"
-                onClick={() => setOpen((prev) => !prev)}
+                onClick={toggle}
                 className="p-1.5 rounded-full hover:bg-secondary transition-colors cursor-pointer"
                 aria-label="Row actions"
             >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#414141" fill="none" stroke="#414141" stroke-width="1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#414141" strokeWidth="1.5">
                     <path d="M21 12C21 11.1716 20.3284 10.5 19.5 10.5C18.6716 10.5 18 11.1716 18 12C18 12.8284 18.6716 13.5 19.5 13.5C20.3284 13.5 21 12.8284 21 12Z"></path>
                     <path d="M13.5 12C13.5 11.1716 12.8284 10.5 12 10.5C11.1716 10.5 10.5 11.1716 10.5 12C10.5 12.8284 11.1716 13.5 12 13.5C12.8284 13.5 13.5 12.8284 13.5 12Z"></path>
                     <path d="M6 12C6 11.1716 5.32843 10.5 4.5 10.5C3.67157 10.5 3 11.1716 3 12C3 12.8284 3.67157 13.5 4.5 13.5C5.32843 13.5 6 12.8284 6 12Z"></path>
                 </svg>
             </button>
 
-            {open && (
-                <div className="absolute right-0 mt-1.5 w-36 bg-white rounded-xl border border-border shadow-lg shadow-black/5 py-1.5 z-20 overflow-hidden">
+            {open && typeof window !== 'undefined' && createPortal(
+                <div
+                    ref={menuRef}
+                    style={{
+                        position: 'fixed',
+                        top: coords.top,
+                        left: coords.left - 100,
+                        visibility: coords.ready ? 'visible' : 'hidden',
+                    }}
+                    className="w-36 bg-white rounded-xl border border-border shadow-lg shadow-black/5 py-1.5 z-50 overflow-hidden"
+                >
                     <button className="w-full text-left px-3.5 py-2 text-sm text-[#414141] hover:bg-secondary transition-colors">Edit</button>
                     <button className="w-full text-left px-3.5 py-2 text-sm text-[#C4453A] hover:bg-secondary transition-colors">Delete</button>
-                </div>
+                </div>,
+                document.body
             )}
-        </div>
+        </>
     );
 };
 
@@ -149,7 +199,7 @@ const Table = () => {
     };
 
     return (
-        <div className="rounded-2xl bg-[#F5F5F5] overflow-hidden mt-5">
+        <div className="rounded-2xl bg-[#F5F5F5] mt-5">
             <table className="w-full border-collapse">
                 <thead>
                     <tr className="bg-border text-[#414141] text-[15px]">

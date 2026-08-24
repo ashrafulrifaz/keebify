@@ -65,7 +65,7 @@ const Header = () => {
                 {
                     status === 'authenticated' ? (
                         <button onClick={() => signOut()} className='border border-border p-1.5 bg-secondary rounded-full cursor-pointer'>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" color="#141b34" fill="none" stroke="#141b34" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" color="#141b34" fill="none" stroke="#141b34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M11.9474 21C7.00589 21 3 16.9706 3 12C3 7.02944 7.00589 3 11.9474 3"></path>
                                 <path d="M17 8C17 8 21 10.946 21 12C21 13.0541 17 16 17 16M20.5 12H9"></path>
                             </svg>
