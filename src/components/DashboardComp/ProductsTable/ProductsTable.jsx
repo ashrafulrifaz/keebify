@@ -1,5 +1,6 @@
 import React from 'react';
 import CategoryDropdown from './CategoryDropDown';
+import Table from './Table';
 
 const ProductsTable = () => {
     return (
@@ -14,6 +15,8 @@ const ProductsTable = () => {
                 </div>
                 <CategoryDropdown />
             </div>
+
+            <Table />
         </div>
     );
 };
