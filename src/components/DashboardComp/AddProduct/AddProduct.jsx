@@ -1,19 +1,23 @@
 'use client'
 import { useRef, useState } from "react";
 import ProductCategorySelector from "./ProductCategorySelector";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
 const MAX_SIZE_MB = 50;
 const MAX_FILES = 10;
 
 const AddProduct = () => {
-    const [productCategory, setProductCategory] = useState('')
+    const [productCategory, setProductCategory] = useState(null)
     const [colors, setColors] = useState([]);
     const [isDragging, setIsDragging] = useState(false);
     const [inputValue, setInputValue] = useState('');
     const [error, setError] = useState('');
     const [files, setFiles] = useState([]);
+    const {register, handleSubmit, reset} = useForm()
     const inputRef = useRef(null);
+    const router = useRouter();
 
     const isValidHex = (value) => /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(value);
     
@@ -116,16 +120,33 @@ const AddProduct = () => {
         setIsDragging(false);
     };
 
+    const onSubmit = async (data) => {
+        if(productCategory === null || colors.length === 0 || files.length === 0) {
+            console.log('an input field is missing')
+        }
+        const product = {
+            name: data.name,
+            price: data.price,
+            category: productCategory,
+            colors: colors,
+            stock: data.stock,
+            review: data.reviews,
+            description: data.description,
+            photos: files
+        }
+        console.log(product)
+    }
+
     return (
-        <form className='mt-5 bg-border/50 rounded-xl px-4 py-5'>
+        <form onSubmit={handleSubmit(onSubmit)} className='mt-5 bg-border/50 rounded-xl px-4 py-5'>
             <div className='grid grid-cols-3 gap-5'>
                 <div>
                     <label htmlFor="name" className='text-[#414141] block font-medium'>Product Name</label>
-                    <input type="text" id='name' placeholder='Enter product name' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' />
+                    <input type="text" id='name' placeholder='Enter product name' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' {...register("name", {required: true})} />
                 </div>
                 <div>
                     <label htmlFor="price" className='text-[#414141] block font-medium'>Product Price</label>
-                    <input type="number" id='price' placeholder='Enter product price' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' />
+                    <input type="number" id='price' placeholder='Enter product price' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' {...register("price", {required: true})} />
                 </div>
                 <div>
                     <label htmlFor="category" className='text-[#414141] block font-medium'>Product Category</label>
@@ -171,17 +192,17 @@ const AddProduct = () => {
                 </div>
                 <div>
                     <label htmlFor="stock" className='text-[#414141] block font-medium'>Product Stock</label>
-                    <input type="number" id='stock' placeholder='Enter product total stock' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' />
+                    <input type="number" id='stock' placeholder='Enter product total stock' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' {...register("stock", {required: true})} />
                 </div>
                 <div>
                     <label htmlFor="review" className='text-[#414141] block font-medium'>Review Count</label>
-                    <input type="number" id='review' placeholder='Enter product total reviews' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' />
+                    <input type="number" id='review' placeholder='Enter product total reviews' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' {...register("reviews", {required: true})} />
                 </div>
             </div>
             <div className='grid grid-cols-2 gap-5 mt-5'>
                 <div>
                     <label htmlFor="description" className='text-[#414141] block font-medium'>Product Description</label>
-                    <textarea type="number" id='description' rows={10} placeholder='Enter product total reviews' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' />
+                    <textarea type="number" id='description' rows={10} placeholder='Enter product total reviews' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' {...register("description", {required: true})} />
                 </div>
                 <div>
                     <label htmlFor="photo" className='text-[#414141] block font-medium'>Product Photo</label>
@@ -264,7 +285,7 @@ const AddProduct = () => {
                 </div>
             </div>
             <div>
-                <button type="submit" className="capitalize py-3 px-20 cursor-pointer bg-primary text-white rounded-xl mt-6 font-medium">Create Product</button>
+                <button disabled={(productCategory === null || colors.length === 0 || files.length === 0)} type="submit" className={`capitalize py-3 px-20 cursor-pointer rounded-xl mt-6 font-medium ${(productCategory === null || colors.length === 0 || files.length === 0) ? 'bg-primary/80' : 'bg-primary text-white'}`}>Create Product</button>
             </div>
         </form>
     );
