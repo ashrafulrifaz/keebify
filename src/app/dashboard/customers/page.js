@@ -1,5 +1,4 @@
-import OrdersTable from '@/components/DashboardComp/OrdersTable/OrdersTable';
-import Link from 'next/link';
+import CustomersTable from '@/components/DashboardComp/CustomersTable/CustomersTable';
 import React from 'react';
 
 const page = () => {
@@ -9,7 +8,7 @@ const page = () => {
                 <h2 className='capitalize text-2xl font-medium'>Customers</h2>
                 <p className='text-[#414141] mt-2'>manage customers order</p>
             </div>
-            <OrdersTable />
+            <CustomersTable />
         </div>
     );
 };
