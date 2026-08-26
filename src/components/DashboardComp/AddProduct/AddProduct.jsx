@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import ProductCategorySelector from "./ProductCategorySelector";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import ProductStatusSelector from "./ProductStatusSelector";
 
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
 const MAX_SIZE_MB = 50;
@@ -10,6 +11,7 @@ const MAX_FILES = 10;
 
 const AddProduct = () => {
     const [productCategory, setProductCategory] = useState(null)
+    const [productStatus, setProductStatus] = useState(null)
     const [colors, setColors] = useState([]);
     const [isDragging, setIsDragging] = useState(false);
     const [inputValue, setInputValue] = useState('');
@@ -121,7 +123,7 @@ const AddProduct = () => {
     };
 
     const onSubmit = async (data) => {
-        if (productCategory === null || colors.length === 0 || files.length === 0) {
+        if (productCategory === null || files.length === 0) {
             console.log('an input field is missing');
             return;
         }
@@ -192,12 +194,6 @@ const AddProduct = () => {
                     <input type="number" id='price' placeholder='Enter product price' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' {...register("price", {required: true})} />
                 </div>
                 <div>
-                    <label htmlFor="category" className='text-[#414141] block font-medium'>Product Category</label>
-                    <ProductCategorySelector setProductCategory={setProductCategory} />
-                </div>
-            </div>
-            <div className='grid grid-cols-3 gap-5 mt-5'>
-                <div>
                     <label htmlFor="colorCodes" className='text-[#414141] block font-medium'>Product Colors</label>
                     <div id="colorCodes" className={`w-full flex flex-wrap items-center gap-2 border border-[#c4c4c4]/50 rounded-lg ${colors?.length === 0 ? 'py-2 px-3 ' : 'py-1 px-1.5'} mt-3`}>
                         {colors.map((color, index) => (
@@ -233,6 +229,8 @@ const AddProduct = () => {
                         />
                     </div>
                 </div>
+            </div>
+            <div className='grid grid-cols-4 gap-5 mt-5'>
                 <div>
                     <label htmlFor="stock" className='text-[#414141] block font-medium'>Product Stock</label>
                     <input type="number" id='stock' placeholder='Enter product total stock' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' {...register("stock", {required: true})} />
@@ -240,6 +238,14 @@ const AddProduct = () => {
                 <div>
                     <label htmlFor="review" className='text-[#414141] block font-medium'>Review Count</label>
                     <input type="number" id='review' placeholder='Enter product total reviews' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' {...register("reviews", {required: true})} />
+                </div>
+                <div>
+                    <label htmlFor="category" className='text-[#414141] block font-medium'>Product Category</label>
+                    <ProductCategorySelector setProductCategory={setProductCategory} />
+                </div>
+                <div>
+                    <label htmlFor="category" className='text-[#414141] block font-medium'>Product Status</label>
+                    <ProductStatusSelector setProductStatus={setProductStatus} />
                 </div>
             </div>
             <div className='grid grid-cols-2 gap-5 mt-5'>
@@ -328,7 +334,7 @@ const AddProduct = () => {
                 </div>
             </div>
             <div>
-                <button disabled={(productCategory === null || colors.length === 0 || files.length === 0)} type="submit" className={`capitalize py-3 px-20 cursor-pointer rounded-xl mt-6 font-medium ${(productCategory === null || colors.length === 0 || files.length === 0) ? 'bg-primary/80' : 'bg-primary text-white'}`}>Create Product</button>
+                <button disabled={(productCategory === null || files.length === 0)} type="submit" className={`capitalize py-3 px-20 cursor-pointer rounded-xl mt-6 font-medium ${(productCategory === null || files.length === 0) ? 'bg-primary/80' : 'bg-primary text-white'}`}>Create Product</button>
             </div>
         </form>
     );

@@ -3,12 +3,12 @@ import Image from 'next/image';
 import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 
-const STATUS_OPTIONS = ['Active', 'Draft', 'Out of Stock'];
+const STATUS_OPTIONS = ['active', 'draft', 'out of stock'];
 
 const STATUS_STYLES = {
-    Active: 'bg-[#E3F1DE] text-[#4A8B3B]',
-    Draft: 'bg-[#EFEFEF] text-[#696969]',
-    'Out of Stock': 'bg-[#FBE3E1] text-[#C4453A]',
+    active: 'bg-[#E3F1DE] text-[#4A8B3B]',
+    draft: 'bg-[#EFEFEF] text-[#696969]',
+    'out of stock': 'bg-[#FBE3E1] text-[#C4453A]',
 };
 
 const useDropdown = () => {
@@ -55,8 +55,27 @@ const useDropdown = () => {
     return { open, setOpen, triggerRef, menuRef, coords, toggle };
 };
 
-const StatusBadge = ({ status, onChange }) => {
+const StatusBadge = ({ status, onChange, productId }) => {
     const { open, setOpen, triggerRef, menuRef, coords, toggle } = useDropdown();
+
+    const handleStatusUpdate = async (option) => {
+        const res = await fetch(`http://localhost:3001/products/${productId}`, {
+            method: "PATCH",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                status: option
+            })
+        })
+
+        if (res.ok) {
+            const updatedProduct = await res.json();
+            console.log('Updated:', updatedProduct);
+        } else {
+            console.error('Update failed');
+        }
+    }
 
     return (
         <>
@@ -64,7 +83,7 @@ const StatusBadge = ({ status, onChange }) => {
                 ref={triggerRef}
                 type="button"
                 onClick={toggle}
-                className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium cursor-pointer transition-colors ${STATUS_STYLES[status]}`}
+                className={`capitalize flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-sm font-medium cursor-pointer transition-colors ${STATUS_STYLES[status]}`}
             >
                 {status}
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>
@@ -90,6 +109,7 @@ const StatusBadge = ({ status, onChange }) => {
                             onClick={() => {
                                 onChange(option);
                                 setOpen(false);
+                                handleStatusUpdate(option)
                             }}
                             className="w-full text-left px-3.5 py-2 text-sm text-[#414141] hover:bg-secondary transition-colors"
                         >
@@ -144,10 +164,9 @@ const ActionMenu = () => {
 
 const Table = ({products}) => {
     const [rows, setRows] = useState(products || []);
-    console.log(rows)
 
     const updateStatus = (id, status) => {
-        setRows((prev) => prev.map((row) => (row.id === id ? { ...row, status } : row)));
+        setRows((prev) => prev.map((row) => (row._id === id ? { ...row, status } : row)));
     };
 
     return (
@@ -186,7 +205,7 @@ const Table = ({products}) => {
                             <td className="py-3.5 px-4 text-[15px] text-[#1a1a1a]">${product.price}</td>
                             <td className="py-3.5 px-4 text-[15px] text-[#414141]">{product.stock}</td>
                             <td className="py-3.5 px-4">
-                                <StatusBadge status={product.status} onChange={(status) => updateStatus(product.id, status)} />
+                                <StatusBadge status={product.status} onChange={(status) => updateStatus(product._id, status)} productId={product._id} />
                             </td>
                             <td className="py-3.5 pr-6 pl-4">
                                 <ActionMenu />
