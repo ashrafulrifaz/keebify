@@ -32,7 +32,7 @@ const ProductStatusSelector = ({setProductStatus}) => {
                 className="border border-[#c4c4c4]/50 py-2 pl-3 pr-2.5 rounded-lg flex items-center justify-between gap-1.5 text-[15px] cursor-pointer hover:bg-border/60 transition-colors w-full"
             >
                 <span className={selected ? 'text-[#141b34]' : 'text-[#696969]'}>
-                    {selected || 'Select Category'}
+                    {selected || 'Select Status'}
                 </span>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
