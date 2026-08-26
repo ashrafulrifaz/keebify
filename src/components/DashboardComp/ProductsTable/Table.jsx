@@ -11,55 +11,6 @@ const STATUS_STYLES = {
     'Out of Stock': 'bg-[#FBE3E1] text-[#C4453A]',
 };
 
-const products = [
-    {
-        id: 1,
-        image: 'https://res.cloudinary.com/db30o33kz/image/upload/v1785846044/AULA_F75_Max_Driver_Background_Removed_yndmgl.png',
-        name: 'Universe Vitality Orange',
-        category: 'Mechanical',
-        price: 85.0,
-        stock: 150,
-        status: 'Active',
-    },
-    {
-        id: 2,
-        image: 'https://res.cloudinary.com/db30o33kz/image/upload/v1785846044/AULA_F75_Max_Driver_Background_Removed_yndmgl.png',
-        name: 'Universe Vitality Orange',
-        category: 'Mechanical',
-        price: 85.0,
-        stock: 150,
-        status: 'Active',
-    },
-        {
-        id: 3,
-        image: 'https://res.cloudinary.com/db30o33kz/image/upload/v1785846044/AULA_F75_Max_Driver_Background_Removed_yndmgl.png',
-        name: 'Universe Vitality Orange',
-        category: 'Mechanical',
-        price: 85.0,
-        stock: 150,
-        status: 'Active',
-    },
-    {
-        id: 4,
-        image: 'https://res.cloudinary.com/db30o33kz/image/upload/v1785846044/AULA_F75_Max_Driver_Background_Removed_yndmgl.png',
-        name: 'Universe Vitality Orange',
-        category: 'Mechanical',
-        price: 85.0,
-        stock: 150,
-        status: 'Active',
-    },
-    {
-        id: 5,
-        image: 'https://res.cloudinary.com/db30o33kz/image/upload/v1785846044/AULA_F75_Max_Driver_Background_Removed_yndmgl.png',
-        name: 'Universe Vitality Orange',
-        category: 'Mechanical',
-        price: 85.0,
-        stock: 150,
-        status: 'Active',
-    },
-];
-
-// Shared hook: computes dropdown position + open state + outside click
 const useDropdown = () => {
     const [open, setOpen] = useState(false);
     const triggerRef = useRef(null);
@@ -191,8 +142,9 @@ const ActionMenu = () => {
     );
 };
 
-const Table = () => {
-    const [rows, setRows] = useState(products);
+const Table = ({products}) => {
+    const [rows, setRows] = useState(products || []);
+    console.log(rows)
 
     const updateStatus = (id, status) => {
         setRows((prev) => prev.map((row) => (row.id === id ? { ...row, status } : row)));
@@ -215,23 +167,23 @@ const Table = () => {
                 <tbody>
                     {rows.map((product, idx) => (
                         <tr
-                            key={product.id}
+                            key={idx}
                             className={idx !== rows.length - 1 ? 'border-b border-[#e5e5e5]' : ''}
                         >
                             <td className="py-3.5 pl-6 pr-4">
                                 <div className="w-20 h-16 rounded-2xl bg-white flex items-center justify-center overflow-hidden">
                                     <Image
-                                        src={product.image}
+                                        src={product.photos[0]}
                                         alt={product.name}
                                         width={64}
                                         height={48}
-                                        className="object-contain w-full h-full p-1"
+                                        className="object-contain w-full h-full"
                                     />
                                 </div>
                             </td>
                             <td className="py-3.5 px-4 text-[15px] text-[#1a1a1a]">{product.name}</td>
                             <td className="py-3.5 px-4 text-[15px] text-[#414141]">{product.category}</td>
-                            <td className="py-3.5 px-4 text-[15px] text-[#1a1a1a] font-medium">${product.price.toFixed(2)}</td>
+                            <td className="py-3.5 px-4 text-[15px] text-[#1a1a1a]">${product.price}</td>
                             <td className="py-3.5 px-4 text-[15px] text-[#414141]">{product.stock}</td>
                             <td className="py-3.5 px-4">
                                 <StatusBadge status={product.status} onChange={(status) => updateStatus(product.id, status)} />
