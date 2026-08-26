@@ -3,12 +3,13 @@ import { useState, useRef, useEffect } from 'react';
 
 const CATEGORIES = ['Keyboards', 'Switches', 'Keycaps', 'Accessories'];
 
-const ProductCategorySelector = ({setProductCategory}) => {
+const ProductCategorySelector = ({productCategory, setProductCategory}) => {
     const [open, setOpen] = useState(false);
-    const [selected, setSelected] = useState(null);
+    const [selected, setSelected] = useState(productCategory);
     const ref = useRef(null);
 
     useEffect(() => {
+        setSelected(productCategory || null);
         const handleClickOutside = (e) => {
             if (ref.current && !ref.current.contains(e.target)) {
                 setOpen(false);
@@ -16,7 +17,7 @@ const ProductCategorySelector = ({setProductCategory}) => {
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+    }, [productCategory]);
 
     const handleSelect = (category) => {
         setSelected(category);

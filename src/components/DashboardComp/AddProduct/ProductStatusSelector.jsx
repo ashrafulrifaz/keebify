@@ -3,12 +3,13 @@ import { useState, useRef, useEffect } from 'react';
 
 const STATUS = ['active', 'draft', 'out of stock'];
 
-const ProductStatusSelector = ({setProductStatus}) => {
+const ProductStatusSelector = ({productStatus, setProductStatus}) => {
     const [open, setOpen] = useState(false);
-    const [selected, setSelected] = useState(null);
+    const [selected, setSelected] = useState(productStatus);
     const ref = useRef(null);
 
     useEffect(() => {
+        setSelected(productStatus || null);
         const handleClickOutside = (e) => {
             if (ref.current && !ref.current.contains(e.target)) {
                 setOpen(false);
@@ -16,7 +17,7 @@ const ProductStatusSelector = ({setProductStatus}) => {
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+    }, [productStatus]);
 
     const handleSelect = (category) => {
         setSelected(category);
