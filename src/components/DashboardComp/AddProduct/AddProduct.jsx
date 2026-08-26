@@ -121,21 +121,64 @@ const AddProduct = () => {
     };
 
     const onSubmit = async (data) => {
-        if(productCategory === null || colors.length === 0 || files.length === 0) {
-            console.log('an input field is missing')
+        if (productCategory === null || colors.length === 0 || files.length === 0) {
+            console.log('an input field is missing');
+            return;
         }
-        const product = {
-            name: data.name,
-            price: data.price,
-            category: productCategory,
-            colors: colors,
-            stock: data.stock,
-            review: data.reviews,
-            description: data.description,
-            photos: files
+
+        try {
+            const uploadedPhotos = await Promise.all(
+            files.map(async (file) => {
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('upload_preset', 'keebify');
+
+                const uploadRes = await fetch(
+                    `https://api.cloudinary.com/v1_1/db30o33kz/image/upload`,
+                {
+                    method: 'POST',
+                    body: formData,
+                }
+                );
+
+                if (!uploadRes.ok) {
+                    throw new Error(`Failed to upload ${file.name}`);
+                }
+
+                const uploadData = await uploadRes.json();
+                return uploadData.secure_url;
+            })
+            );
+
+            const product = {
+                name: data.name,
+                price: data.price,
+                category: productCategory,
+                colors: colors,
+                stock: data.stock,
+                review: data.reviews,
+                description: data.description,
+                photos: uploadedPhotos,
+            };
+
+            const res = await fetch('http://localhost:3001/products', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify(product),
+            });
+
+            if (res.ok) {
+                reset();
+                router.push('/dashboard/products');
+            } else {
+                console.log('failed to save product');
+            }
+        } catch (err) {
+            console.error('Upload or submit failed:', err);
         }
-        console.log(product)
-    }
+    };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='mt-5 bg-border/50 rounded-xl px-4 py-5'>
