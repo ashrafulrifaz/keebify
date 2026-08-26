@@ -1,11 +1,14 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import CategoryDropdown from './CategoryDropDown';
 import Table from './Table';
 import useProducts from '@/hooks/useProducts';
 
 const ProductsTable = () => {
     const { isPending, products } = useProducts();
+    const [selected, setSelected] = useState(null);
+
+    const filteredProducts = selected ? products?.filter((product) => product.category === selected) : products;
 
     return (
         <div className='mt-5 bg-border/50 rounded-xl px-4 py-5'>
@@ -24,10 +27,10 @@ const ProductsTable = () => {
                                 </svg>
                                 <input type="text" placeholder='Search products' className='text-[15px] focus:outline-0' />
                             </div>
-                            <CategoryDropdown />
+                            <CategoryDropdown selected={selected} setSelected={setSelected} />
                         </div>
 
-                        <Table products={products} />
+                        <Table products={filteredProducts} />
                     </div>
                 )
             }

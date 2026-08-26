@@ -3,9 +3,8 @@ import { useState, useRef, useEffect } from 'react';
 
 const CATEGORIES = ['Keyboards', 'Switches', 'Keycaps', 'Accessories'];
 
-const CategoryDropdown = ({ onChange }) => {
+const CategoryDropdown = ({ onChange, selected, setSelected }) => {
     const [open, setOpen] = useState(false);
-    const [selected, setSelected] = useState(null);
     const ref = useRef(null);
 
     useEffect(() => {

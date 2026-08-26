@@ -170,9 +170,7 @@ const EditProduct = ({slug}) => {
                         return uploadData.secure_url;
                     })
                 );
-            }
-
-            
+            }            
 
             const product = {
                 name: data.name ? data.name : editingProduct?.name,
