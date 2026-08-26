@@ -3,12 +3,15 @@ import React, { useState } from 'react';
 import CategoryDropdown from './CategoryDropDown';
 import Table from './Table';
 import useProducts from '@/hooks/useProducts';
+import StatusDropdown from './StatusDropDown';
 
 const ProductsTable = () => {
     const { isPending, products } = useProducts();
     const [selected, setSelected] = useState(null);
+    const [statusSelected, setStatusSelected] = useState(null)
+    console.log(statusSelected)
 
-    const filteredProducts = selected ? products?.filter((product) => product.category === selected) : products;
+    const filteredProducts = products?.filter((product) => (selected ? product.category === selected : true)).filter((product) => (statusSelected !== null ? product.status === statusSelected : true));
 
     return (
         <div className='mt-5 bg-border/50 rounded-xl px-4 py-5'>
@@ -27,7 +30,10 @@ const ProductsTable = () => {
                                 </svg>
                                 <input type="text" placeholder='Search products' className='text-[15px] focus:outline-0' />
                             </div>
-                            <CategoryDropdown selected={selected} setSelected={setSelected} />
+                            <div className='flex gap-3'>
+                                <StatusDropdown statusSelected={statusSelected} setStatusSelected={setStatusSelected} />
+                                <CategoryDropdown selected={selected} setSelected={setSelected} />
+                            </div>
                         </div>
 
                         <Table products={filteredProducts} />
