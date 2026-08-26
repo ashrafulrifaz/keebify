@@ -1,6 +1,7 @@
 'use client'
 import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -169,7 +170,7 @@ const ActionMenu = (id) => {
                     }}
                     className="w-36 bg-white rounded-xl border border-border shadow-lg shadow-black/5 py-1.5 z-50 overflow-hidden"
                 >
-                    <button className="w-full text-left px-3.5 py-2 text-sm text-[#414141] hover:bg-secondary transition-colors">Edit</button>
+                    <Link href={`/dashboard/products/${id.id}`} className="block text-left px-3.5 py-2 text-sm text-[#414141] hover:bg-secondary transition-colors">Edit</Link>
                     <button onClick={() => {handleProductDelete()}} className="w-full text-left px-3.5 py-2 text-sm text-[#C4453A] hover:bg-secondary transition-colors">Delete</button>
                 </div>,
                 document.body
