@@ -4,6 +4,7 @@ import ProductCategorySelector from "./ProductCategorySelector";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import ProductStatusSelector from "./ProductStatusSelector";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
 const MAX_SIZE_MB = 50;
@@ -18,6 +19,7 @@ const AddProduct = () => {
     const [error, setError] = useState('');
     const [files, setFiles] = useState([]);
     const {register, handleSubmit, reset} = useForm()
+    const queryClient = useQueryClient();
     const inputRef = useRef(null);
     const router = useRouter();
 
@@ -158,6 +160,7 @@ const AddProduct = () => {
                 category: productCategory,
                 colors: colors,
                 stock: data.stock,
+                status: productStatus,
                 review: data.reviews,
                 description: data.description,
                 photos: uploadedPhotos,
@@ -172,6 +175,7 @@ const AddProduct = () => {
             });
 
             if (res.ok) {
+                queryClient.invalidateQueries({ queryKey: ['products'] });
                 reset();
                 router.push('/dashboard/products');
             } else {

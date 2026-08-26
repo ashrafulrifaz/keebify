@@ -1,4 +1,5 @@
 'use client'
+import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
@@ -123,8 +124,23 @@ const StatusBadge = ({ status, onChange, productId }) => {
     );
 };
 
-const ActionMenu = () => {
+const ActionMenu = (id) => {
     const { open, setOpen, triggerRef, menuRef, coords, toggle } = useDropdown();
+    const queryClient = useQueryClient();
+
+    const handleProductDelete = async () => {
+        setOpen(false)
+        const res = await fetch(`http://localhost:3001/products/${id.id}`, {
+            method: "DELETE",
+        })
+        if (res.ok) {
+            console.log('Deleted successfully');
+            queryClient.invalidateQueries({ queryKey: ['products'] });
+            setRows((prev) => prev.filter((row) => row._id !== id.id));
+        } else {
+            console.error('Delete failed');
+        }
+    }
 
     return (
         <>
@@ -154,7 +170,7 @@ const ActionMenu = () => {
                     className="w-36 bg-white rounded-xl border border-border shadow-lg shadow-black/5 py-1.5 z-50 overflow-hidden"
                 >
                     <button className="w-full text-left px-3.5 py-2 text-sm text-[#414141] hover:bg-secondary transition-colors">Edit</button>
-                    <button className="w-full text-left px-3.5 py-2 text-sm text-[#C4453A] hover:bg-secondary transition-colors">Delete</button>
+                    <button onClick={() => {handleProductDelete()}} className="w-full text-left px-3.5 py-2 text-sm text-[#C4453A] hover:bg-secondary transition-colors">Delete</button>
                 </div>,
                 document.body
             )}
@@ -164,6 +180,10 @@ const ActionMenu = () => {
 
 const Table = ({products}) => {
     const [rows, setRows] = useState(products || []);
+
+    useEffect(() => {
+        setRows(products || []);
+    }, [products]);
 
     const updateStatus = (id, status) => {
         setRows((prev) => prev.map((row) => (row._id === id ? { ...row, status } : row)));
@@ -208,7 +228,7 @@ const Table = ({products}) => {
                                 <StatusBadge status={product.status} onChange={(status) => updateStatus(product._id, status)} productId={product._id} />
                             </td>
                             <td className="py-3.5 pr-6 pl-4">
-                                <ActionMenu />
+                                <ActionMenu id={product._id} />
                             </td>
                         </tr>
                     ))}

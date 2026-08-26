@@ -20,7 +20,7 @@ const ProductStatusSelector = ({setProductStatus}) => {
 
     const handleSelect = (category) => {
         setSelected(category);
-        setProductCategory(category)
+        setProductStatus(category)
         setOpen(false);
     };
 
