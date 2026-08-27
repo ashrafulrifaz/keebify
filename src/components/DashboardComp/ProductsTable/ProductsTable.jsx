@@ -9,7 +9,6 @@ const ProductsTable = () => {
     const { isPending, products } = useProducts();
     const [selected, setSelected] = useState(null);
     const [statusSelected, setStatusSelected] = useState(null)
-    console.log(statusSelected)
 
     const filteredProducts = products?.filter((product) => (selected ? product.category === selected : true)).filter((product) => (statusSelected !== null ? product.status === statusSelected : true));
 
