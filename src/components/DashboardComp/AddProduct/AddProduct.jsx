@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import ProductStatusSelector from "./ProductStatusSelector";
 import { useQueryClient } from "@tanstack/react-query";
 import { gooeyToast } from "goey-toast";
+import BrandSelector from "./BrandSelector";
 
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
 const MAX_SIZE_MB = 50;
@@ -14,6 +15,7 @@ const MAX_FILES = 10;
 const AddProduct = () => {
     const [productCategory, setProductCategory] = useState(null)
     const [productStatus, setProductStatus] = useState(null)
+    const [brand, setBrand] = useState(null)
     const [colors, setColors] = useState([]);
     const [isDragging, setIsDragging] = useState(false);
     const [inputValue, setInputValue] = useState('');
@@ -159,12 +161,14 @@ const AddProduct = () => {
 
             const product = {
                 name: data.name,
-                price: data.price,
-                category: productCategory,
+                shortDescription: data.shortDescription,
                 colors: colors,
-                stock: data.stock,
+                price: parseFloat(data.price),
+                stock: parseFloat(data.stock),
+                reviews: parseFloat(data.reviews),
+                category: productCategory,
                 status: productStatus,
-                reviews: data.reviews,
+                brand: brand,
                 description: data.description,
                 photos: uploadedPhotos,
             };
@@ -211,8 +215,8 @@ const AddProduct = () => {
                     <input type="text" id='name' placeholder='Enter product name' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' {...register("name", {required: true})} />
                 </div>
                 <div>
-                    <label htmlFor="price" className='text-[#414141] block font-medium'>Product Price</label>
-                    <input type="number" id='price' placeholder='Enter product price' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' {...register("price", {required: true})} />
+                    <label htmlFor="shortDescription" className='text-[#414141] block font-medium'>Short Description</label>
+                    <input type="text" id='shortDescription' placeholder='Enter product short description' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' {...register("shortDescription", {required: true})} />
                 </div>
                 <div>
                     <label htmlFor="colorCodes" className='text-[#414141] block font-medium'>Product Colors</label>
@@ -251,7 +255,11 @@ const AddProduct = () => {
                     </div>
                 </div>
             </div>
-            <div className='grid grid-cols-4 gap-5 mt-5'>
+            <div className='grid grid-cols-3 gap-5 mt-5'>
+                <div>
+                    <label htmlFor="price" className='text-[#414141] block font-medium'>Product Price</label>
+                    <input type="number" id='price' placeholder='Enter product price' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' {...register("price", {required: true})} />
+                </div>
                 <div>
                     <label htmlFor="stock" className='text-[#414141] block font-medium'>Product Stock</label>
                     <input type="number" id='stock' placeholder='Enter product total stock' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' {...register("stock", {required: true})} />
@@ -260,13 +268,19 @@ const AddProduct = () => {
                     <label htmlFor="reviews" className='text-[#414141] block font-medium'>Review Count</label>
                     <input type="number" id='reviews' placeholder='Enter product total reviews' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' {...register("reviews", {required: true})} />
                 </div>
+            </div>
+            <div className="grid grid-cols-3 gap-5 mt-5">
                 <div>
                     <label htmlFor="category" className='text-[#414141] block font-medium'>Product Category</label>
                     <ProductCategorySelector setProductCategory={setProductCategory} />
                 </div>
                 <div>
-                    <label htmlFor="category" className='text-[#414141] block font-medium'>Product Status</label>
+                    <label htmlFor="status" className='text-[#414141] block font-medium'>Product Status</label>
                     <ProductStatusSelector setProductStatus={setProductStatus} />
+                </div>
+                <div>
+                    <label htmlFor="brand" className='text-[#414141] block font-medium'>Brand</label>
+                    <BrandSelector brand={brand} setBrand={setBrand} />
                 </div>
             </div>
             <div className='grid grid-cols-2 gap-5 mt-5'>

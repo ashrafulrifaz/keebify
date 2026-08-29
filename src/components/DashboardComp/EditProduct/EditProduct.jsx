@@ -196,8 +196,6 @@ const EditProduct = ({slug}) => {
                 product.description !== editingProduct?.description ||
                 JSON.stringify(product.colors) !== JSON.stringify(editingProduct?.colors);
 
-                console.log(String(product.reviews) !== String(editingProduct?.reviews))
-
             if (!hasChanges) {
                 gooeyToast.warning('Everything up to date', {
                     description: 'No changes were made to this product.',
