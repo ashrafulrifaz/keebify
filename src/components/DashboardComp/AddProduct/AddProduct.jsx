@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import ProductStatusSelector from "./ProductStatusSelector";
 import { useQueryClient } from "@tanstack/react-query";
+import { gooeyToast } from "goey-toast";
 
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
 const MAX_SIZE_MB = 50;
@@ -126,32 +127,34 @@ const AddProduct = () => {
 
     const onSubmit = async (data) => {
         if (productCategory === null || files.length === 0) {
-            console.log('an input field is missing');
+            gooeyToast.warning('Please fill in all required fields', {
+                description: 'Category and at least one photo are required.',
+            });
             return;
         }
 
-        try {
+        const uploadAndSave = async () => {
             const uploadedPhotos = await Promise.all(
-            files.map(async (file) => {
-                const formData = new FormData();
-                formData.append('file', file);
-                formData.append('upload_preset', 'keebify');
+                files.map(async (file) => {
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('upload_preset', 'keebify');
 
-                const uploadRes = await fetch(
-                    `https://api.cloudinary.com/v1_1/db30o33kz/image/upload`,
-                {
-                    method: 'POST',
-                    body: formData,
-                }
-                );
+                    const uploadRes = await fetch(
+                        `https://api.cloudinary.com/v1_1/db30o33kz/image/upload`,
+                        {
+                            method: 'POST',
+                            body: formData,
+                        }
+                    );
 
-                if (!uploadRes.ok) {
-                    throw new Error(`Failed to upload ${file.name}`);
-                }
+                    if (!uploadRes.ok) {
+                        throw new Error(`Failed to upload ${file.name}`);
+                    }
 
-                const uploadData = await uploadRes.json();
-                return uploadData.secure_url;
-            })
+                    const uploadData = await uploadRes.json();
+                    return uploadData.secure_url;
+                })
             );
 
             const product = {
@@ -174,17 +177,31 @@ const AddProduct = () => {
                 body: JSON.stringify(product),
             });
 
-            if (res.ok) {
-                queryClient.invalidateQueries({ queryKey: ['products'] });
-                reset();
-                router.push('/dashboard/products');
-            } else {
-                console.log('failed to save product');
-            }
+            if (!res.ok) throw new Error('Failed to save product');
+            return res.json();
+        };
+
+        const request = uploadAndSave();
+
+        gooeyToast.promise(request, {
+            loading: 'Uploading product...',
+            success: 'Product uploaded',
+            error: 'Failed to upload product',
+            description: {
+                success: `${data.name} has been uploaded to your inventory.`,
+                error: 'Please check your files and try again.',
+            },
+        });
+
+        try {
+            await request;
+            queryClient.invalidateQueries({ queryKey: ['products'] });
+            reset();
+            router.push('/dashboard/products');
         } catch (err) {
             console.error('Upload or submit failed:', err);
         }
-    };
+};
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='mt-5 bg-border/50 rounded-xl px-4 py-5'>
