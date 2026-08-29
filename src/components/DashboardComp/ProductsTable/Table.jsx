@@ -1,5 +1,6 @@
 'use client'
 import { useQueryClient } from '@tanstack/react-query';
+import { gooeyToast } from 'goey-toast';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useRef, useEffect, useLayoutEffect } from 'react';
@@ -74,8 +75,12 @@ const StatusBadge = ({ status, onChange, productId }) => {
         if (res.ok) {
             const updatedProduct = await res.json();
             console.log('Updated:', updatedProduct);
+            gooeyToast.success('Status updated', {
+                description: `Status changed to ${option}.`,
+            });
         } else {
             console.error('Update failed');
+            gooeyToast.error('Failed to update status');
         }
     }
 
