@@ -1,13 +1,14 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 const ProductCard = ({ item }) => {
-    const {name, image, colors, shortDescription, price} = item || {}
+    const {_id, name, colors, shortDescription, price} = item || {}
 
     return (
         <div className='h-full flex flex-col'>
-            <div className='bg-[#eaeaea] px-2 rounded-xl h-60 flex flex-col justify-center'>
-                <Image src={image} alt='keyboard image' width={300} height={200} />
-            </div>
+            <Link href={`/products/${_id}`} className='bg-[#eaeaea] px-2 rounded-xl h-60 flex flex-col justify-center'>
+                <Image src={item?.photos[0]} alt='keyboard image' width={300} height={200} />
+            </Link>
             <div className='mt-5 flex flex-col flex-1'>
                 <div>
                     <div className="flex items-center justify-between">
@@ -16,14 +17,16 @@ const ProductCard = ({ item }) => {
                             {colors?.map((item, idx) => (
                                 <div
                                     key={idx}
-                                    style={{ backgroundColor: item.code }}
-                                    className="w-4 h-4 rounded-full border border-black/10"
+                                    style={{ backgroundColor: item }}
+                                    className={`w-4 h-4 rounded-full border border-black/10`}
                                     title={item.name}
                                 />
                             ))}
                         </div>
                     </div>
-                    <h3 className='font-medium text-lg mt-2'>{name}</h3>
+                    <Link href={`/products/${_id}`}>
+                        <h3 className='font-medium text-[17px] mt-2'>{name}</h3>
+                    </Link>
                     <p className='text-[#4a4a4a] text-[15px] mt-1'>{shortDescription}</p>
                 </div>
                 <div className="mt-auto pt-3 flex gap-3 items-center">

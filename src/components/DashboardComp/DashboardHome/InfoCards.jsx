@@ -33,9 +33,9 @@ const InfoCards = () => {
                 <div className="flex justify-between">
                     <span className='capitalize text-[#696969] font-medium text-md'>Total revenue</span>
                     <div className='bg-primary rounded-full p-2.5'>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" color="#ffffff" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" color="#ffffff" fill="none" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round">
                             <path d="M18.4167 8.14815C18.4167 5.85719 15.5438 4 12 4C8.45617 4 5.58333 5.85719 5.58333 8.14815C5.58333 10.4391 7.33333 11.7037 12 11.7037C16.6667 11.7037 19 12.8889 19 15.8519C19 18.8148 15.866 20 12 20C8.13401 20 5 18.1428 5 15.8519"></path>
-                            <path d="M12 2V22" stroke-linejoin="round"></path>
+                            <path d="M12 2V22" strokeLinejoin="round"></path>
                         </svg>
                     </div>
                 </div>
@@ -56,7 +56,7 @@ const InfoCards = () => {
                     <span className='capitalize text-[#696969] font-medium text-md'>new customers</span>
                     <div className='bg-primary rounded-full p-2.5'>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" color="#ffffff" fill="none" stroke="#ffffff" strokeWidth="1.5">
-                            <path d="M16.5 20V16.9852C16.5 16.364 16.2184 15.7658 15.6838 15.4494C14.1574 14.546 12.1714 14 10 14C7.82863 14 5.84261 14.546 4.31618 15.4494C3.78162 15.7658 3.5 16.364 3.5 16.9852V20" stroke-linecap="round" strokeLinejoin="round"></path>
+                            <path d="M16.5 20V16.9852C16.5 16.364 16.2184 15.7658 15.6838 15.4494C14.1574 14.546 12.1714 14 10 14C7.82863 14 5.84261 14.546 4.31618 15.4494C3.78162 15.7658 3.5 16.364 3.5 16.9852V20" strokeLinecap="round" strokeLinejoin="round"></path>
                             <circle cx="10" cy="7.5" r="3.5"></circle>
                             <path d="M20.5 20.001V16.9862C20.5 16.365 20.2184 15.7667 19.6838 15.4504C19.171 15.1468 18.6062 14.8837 18 14.668" strokeLinecap="round" strokeLinejoin="round"></path>
                             <path d="M15 4.14453C16.4457 4.57481 17.5 5.91408 17.5 7.49959C17.5 9.0851 16.4457 10.4244 15 10.8547" strokeLinecap="round"></path>
