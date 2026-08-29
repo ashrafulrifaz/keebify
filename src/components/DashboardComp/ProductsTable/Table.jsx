@@ -74,7 +74,6 @@ const StatusBadge = ({ status, onChange, productId }) => {
 
         if (res.ok) {
             const updatedProduct = await res.json();
-            console.log('Updated:', updatedProduct);
             gooeyToast.success('Status updated', {
                 description: `Status changed to ${option}.`,
             });
@@ -140,7 +139,10 @@ const ActionMenu = (id) => {
             method: "DELETE",
         })
         if (res.ok) {
-            console.log('Deleted successfully');
+            gooeyToast.error('Product deleted', {
+                showTimestamp: false,
+                description: `This product has been deleted.`,
+            });
             queryClient.invalidateQueries({ queryKey: ['products'] });
             setRows((prev) => prev.filter((row) => row._id !== id.id));
         } else {

@@ -164,7 +164,7 @@ const AddProduct = () => {
                 colors: colors,
                 stock: data.stock,
                 status: productStatus,
-                review: data.reviews,
+                reviews: data.reviews,
                 description: data.description,
                 photos: uploadedPhotos,
             };
@@ -257,8 +257,8 @@ const AddProduct = () => {
                     <input type="number" id='stock' placeholder='Enter product total stock' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' {...register("stock", {required: true})} />
                 </div>
                 <div>
-                    <label htmlFor="review" className='text-[#414141] block font-medium'>Review Count</label>
-                    <input type="number" id='review' placeholder='Enter product total reviews' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' {...register("reviews", {required: true})} />
+                    <label htmlFor="reviews" className='text-[#414141] block font-medium'>Review Count</label>
+                    <input type="number" id='reviews' placeholder='Enter product total reviews' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full' {...register("reviews", {required: true})} />
                 </div>
                 <div>
                     <label htmlFor="category" className='text-[#414141] block font-medium'>Product Category</label>

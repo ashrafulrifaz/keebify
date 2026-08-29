@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import useProducts from '@/hooks/useProducts';
+import { gooeyToast } from 'goey-toast';
 
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
 const MAX_SIZE_MB = 50;
@@ -144,10 +145,9 @@ const EditProduct = ({slug}) => {
     };
 
     const onSubmit = async (data) => {
-
         try {
-            let uploadedPhotos = []
-            if(files.length > 0) {
+            let uploadedPhotos = [];
+            if (files.length > 0) {
                 uploadedPhotos = await Promise.all(
                     files.map(async (file) => {
                         const formData = new FormData();
@@ -156,10 +156,10 @@ const EditProduct = ({slug}) => {
 
                         const uploadRes = await fetch(
                             `https://api.cloudinary.com/v1_1/db30o33kz/image/upload`,
-                        {
-                            method: 'POST',
-                            body: formData,
-                        }
+                            {
+                                method: 'POST',
+                                body: formData,
+                            }
                         );
 
                         if (!uploadRes.ok) {
@@ -170,7 +170,7 @@ const EditProduct = ({slug}) => {
                         return uploadData.secure_url;
                     })
                 );
-            }            
+            }
 
             const product = {
                 name: data.name ? data.name : editingProduct?.name,
@@ -179,28 +179,65 @@ const EditProduct = ({slug}) => {
                 colors: colors,
                 stock: data.stock ? data.stock : editingProduct?.stock,
                 status: productStatus,
-                review: data.reviews ? data.reviews : editingProduct?.reviews,
+                reviews: data.reviews ? data.reviews : editingProduct?.reviews,
                 description: data.description ? data.description : editingProduct?.description,
                 photos: [...existingPhotos, ...uploadedPhotos],
             };
 
-            const res = await fetch(`http://localhost:3001/products/${slug}`, {
+            const hasChanges =
+                files.length > 0 ||
+                existingPhotos.length !== editingProduct?.photos?.length ||
+                product.name !== editingProduct?.name ||
+                String(product.price) !== String(editingProduct?.price) ||
+                product.category !== editingProduct?.category ||
+                String(product.stock) !== String(editingProduct?.stock) ||
+                product.status !== editingProduct?.status ||
+                String(product.reviews) !== String(editingProduct?.reviews) ||
+                product.description !== editingProduct?.description ||
+                JSON.stringify(product.colors) !== JSON.stringify(editingProduct?.colors);
+
+                console.log(String(product.reviews) !== String(editingProduct?.reviews))
+
+            if (!hasChanges) {
+                gooeyToast.warning('Everything up to date', {
+                    description: 'No changes were made to this product.',
+                    showTimestamp: false,
+                });
+                return;
+            }
+
+            const request = fetch(`http://localhost:3001/products/${slug}`, {
                 method: 'PUT',
                 headers: {
                     'content-type': 'application/json',
                 },
                 body: JSON.stringify(product),
+            }).then((res) => {
+                if (!res.ok) throw new Error('Failed to save product');
+                return res.json();
             });
 
-            if (res.ok) {
-                queryClient.invalidateQueries({ queryKey: ['products'] });
-                reset();
-                router.push('/dashboard/products');
-            } else {
-                console.log('failed to save product');
-            }
+            gooeyToast.promise(request, {
+                loading: 'Saving changes...',
+                success: 'Product updated',
+                error: 'Failed to update product',
+                showTimestamp: false,
+                description: {
+                    success: `${product.name} has been updated.`,
+                    error: 'Please try again.',
+                },
+            });
+
+            await request;
+
+            queryClient.invalidateQueries({ queryKey: ['products'] });
+            reset();
+            router.push('/dashboard/products');
         } catch (err) {
             console.error('Upload or submit failed:', err);
+            gooeyToast.error('Failed to update product', {
+                description: 'Please check your files and try again.',
+            });
         }
     };
 
@@ -258,8 +295,8 @@ const EditProduct = ({slug}) => {
                     <input type="number" id='stock' placeholder='Enter product total stock' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full'defaultValue={editingProduct?.stock} {...register("stock")} />
                 </div>
                 <div>
-                    <label htmlFor="review" className='text-[#414141] block font-medium'>Review Count</label>
-                    <input type="number" id='review' placeholder='Enter product total reviews' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full'defaultValue={editingProduct?.review} {...register("reviews")} />
+                    <label htmlFor="reviews" className='text-[#414141] block font-medium'>Review Count</label>
+                    <input type="number" id='reviews' placeholder='Enter product total reviews' className='mt-3 border border-[#c4c4c4]/50 rounded-lg py-2 px-3 text-[15px] focus:outline-0 w-full'defaultValue={editingProduct?.reviews} {...register("reviews")} />
                 </div>
                 <div>
                     <label htmlFor="category" className='text-[#414141] block font-medium'>Product Category</label>
