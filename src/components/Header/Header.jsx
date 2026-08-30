@@ -35,11 +35,11 @@ const Header = () => {
     return (
         <div className="w-full py-3 grid grid-cols-3 gap-5 px-12">
             <div className='flex justify-start items-center'>
-                <nav className={`inline-block border border-border bg-secondary rounded-full px-3 ${pathname === '/' ? 'pr-3 pl-0' : ''} ${pathname === '/contact' ? 'pl-3 pr-0' : ''}`}>
+                <nav className={`inline-block border border-border bg-secondary rounded-full px-3 ${pathname === '/' ? 'pl-0' : ''} ${pathname === '/contact' ? 'pr-0' : ''}`}>
                     <ul className="flex items-center gap-3">
                         {
                             navItems.map( item => (
-                                <li key={item.id}><Link href={item.link} className={`text-sm block ${pathname === item.link ? 'bg-primary text-white font-medium rounded-full px-2.5 py-2' : ''}`}>{item.name}</Link></li>
+                                <li key={item.id}><Link href={item.link} className={`text-sm block py-2 ${pathname === item.link ? 'bg-primary text-white font-medium rounded-full px-2.5' : ''}`}>{item.name}</Link></li>
                             ))
                         }
                     </ul>
@@ -51,9 +51,10 @@ const Header = () => {
                 </Link>
             </div>
             <div className='flex justify-end items-center gap-3'>
-                <Link href="/cart" className='border border-border p-1.5 bg-secondary rounded-full'>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" color="currentColor" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M10.4107 19.9677C7.58942 17.858 2 13.0348 2 8.69444C2 5.82563 4.10526 3.5 7 3.5C8.5 3.5 10 4 12 6C14 4 15.5 3.5 17 3.5C19.8947 3.5 22 5.82563 22 8.69444C22 13.0348 16.4106 17.858 13.5893 19.9677C12.6399 20.6776 11.3601 20.6776 10.4107 19.9677Z"></path>
+                <Link href="/cart" className={`border  p-1.5 rounded-full ${pathname === '/cart' ? 'border-primary bg-primary text-white' : 'border-border bg-secondary'}`}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" color="currentColor" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M3.32352 13.0113C3.6739 10.009 4.18586 7.75784 4.66063 6.15851C5.04994 4.84711 5.24459 4.19141 6.04283 3.5957C6.84107 3 7.65697 3 9.28876 3H14.7113C16.3431 3 17.159 3 17.9572 3.5957C18.7554 4.19141 18.9501 4.84711 19.3394 6.15851C19.8142 7.75784 20.3261 10.009 20.6765 13.0113C21.0895 16.5497 21.2959 18.3189 20.1027 19.6594C18.9095 21 16.9758 21 13.1084 21H10.8916C7.02422 21 5.09052 21 3.89731 19.6594C2.70411 18.3189 2.91058 16.5497 3.32352 13.0113Z"></path>
+                        <path d="M9 7C9 8.65685 10.3431 10 12 10C13.6569 10 15 8.65685 15 7"></path>
                     </svg>
                 </Link>
                 <Link href="/profile" className='border border-border p-1.5 bg-secondary rounded-full'>
