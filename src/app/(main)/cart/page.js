@@ -1,4 +1,5 @@
 import CartItems from "@/components/CartComponents/CartItems";
+import CartOrderSummary from "@/components/CartComponents/CartOrderSummary";
 import CheckoutSteps from "@/components/CartComponents/CheckoutSteps";
 
 const page = () => {
@@ -7,6 +8,7 @@ const page = () => {
             <CheckoutSteps step={1} />
             <div className="grid grid-cols-3 gap-5">
                 <CartItems />
+                <CartOrderSummary />
             </div>
         </div>
     );
