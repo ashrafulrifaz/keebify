@@ -11,7 +11,7 @@ const CartOrderSummary = () => {
 
     return (
         <div>
-            <h3 className='capitalize text-lg font-medium'>my cart</h3>
+            <h3 className='capitalize text-lg font-medium'>order summary</h3>
             <div className='mt-3 rounded-xl bg-border/50 p-4'>
                 <h3 className='capitalize font-medium'>Coupon code</h3>
                 <div className='border border-[#c4c4c4]/50 bg-border/75 flex gap-2 rounded-xl mt-2 p-1'>
