@@ -10,11 +10,11 @@ const CheckoutSteps = ({step}) => {
             <div className='flex items-center justify-center'>
                 {STEPS.map((item, index) => (
                     [
-                        <div key={`step-${item.id}`} className={`w-9 h-9 rounded-full flex items-center justify-center border ${step === item.id ? 'bg-primary border-primary text-white' : 'bg-white border-[#dedede]'}`}>
+                        <div key={`step-${item.id}`} className={`w-9 h-9 rounded-full flex items-center justify-center border ${(step === item.id || item.id === 1) ? 'bg-primary border-primary text-white' : 'bg-white border-[#dedede]'}`}>
                             <span className='text-sm'>{item.id}</span>
                         </div>,
                         index < STEPS.length - 1 && (
-                            <div key={`line-${item.id}`} className='h-[1.5px] w-24 bg-[#dedede]'></div>
+                            <div key={`line-${item.id}`} className={`h-[1.5px] w-24 ${step > item.id ? 'bg-primary' : 'bg-[#dedede]'}`}></div>
                         )
                     ]
                 ))}
@@ -23,7 +23,7 @@ const CheckoutSteps = ({step}) => {
                 {STEPS.map((item, index) => (
                     [
                         <div key={`label-${item.id}`} className='w-9 flex justify-center'>
-                            <span className={`whitespace-nowrap text-sm ${step === item.id ? 'font-medium text-primary' : ''}`}>{item.step}</span>
+                            <span className={`whitespace-nowrap text-sm ${(step === item.id || item.id === 1) ? 'font-medium text-primary' : ''}`}>{item.step}</span>
                         </div>,
                         index < STEPS.length - 1 && (
                             <div key={`spacer-${item.id}`} className='w-24'></div>

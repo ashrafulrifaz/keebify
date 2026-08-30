@@ -1,6 +1,14 @@
+'use client'
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 const CartOrderSummary = () => {
+    const router = useRouter()
+
+    const handleOrder = async () => {
+        router.push('/checkout')
+    }
+
     return (
         <div>
             <h3 className='capitalize text-lg font-medium'>my cart</h3>
@@ -33,7 +41,7 @@ const CartOrderSummary = () => {
                         <span className='font-medium'>${85}</span>
                     </div>
                 </div>
-                <button className='font-medium capitalize w-full bg-primary text-white mt-7 rounded-2xl py-3 cursor-pointer'>proceed to checkout</button>
+                <button onClick={() => handleOrder()} className='font-medium capitalize w-full bg-primary text-white mt-7 rounded-2xl py-3 cursor-pointer'>proceed to checkout</button>
             </div>
         </div>
     );
