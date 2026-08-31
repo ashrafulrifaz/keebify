@@ -1,5 +1,6 @@
 'use client'
 import useProducts from '@/hooks/useProducts';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
@@ -8,6 +9,8 @@ const ProductDetails = ({slug, min = 1, max = 10}) => {
     const {products} = useProducts()
     const singleProduct = products?.find(item => item._id === slug)
     const {_id, name, reviews, price, colors, shortDescription, stock} = singleProduct || {}
+    const session = useSession()
+    console.log(session)
  
     const updateQuantity = (value) => {
         const clamped = Math.min(max, Math.max(min, value));
@@ -72,7 +75,7 @@ const ProductDetails = ({slug, min = 1, max = 10}) => {
                     </button>
                 </div>
                 <div className='mt-8 flex items-center gap-5'>
-                    <button className='bg-primary text-white px-14 py-3 capitalize font-medium rounded-xl cursor-pointer'>explore collections</button>
+                    <button className='bg-primary text-white w-60 py-3 capitalize font-medium rounded-xl cursor-pointer'>buy now</button>
                     <button className='bg-secondary p-3 border border-border rounded-xl cursor-pointer'>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" color="#414141" fill="none" stroke="#414141" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M20.1765 12.5113C19.8261 9.50898 19.3142 7.25784 18.8394 5.65851C18.4501 4.34711 18.2554 3.69141 17.4572 3.0957C16.659 2.5 15.8431 2.5 14.2113 2.5H8.78876C7.15697 2.5 6.34107 2.5 5.54283 3.0957C4.74459 3.69141 4.54994 4.34711 4.16063 5.65851C3.68586 7.25784 3.1739 9.50898 2.82352 12.5113C2.41058 16.0497 2.20411 17.8189 3.39731 19.1594C4.59052 20.5 6.52422 20.5 10.3916 20.5H12.6084"></path>

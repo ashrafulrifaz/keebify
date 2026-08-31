@@ -1,7 +1,7 @@
 'use client'
 import { useState, useRef, useEffect } from 'react';
 
-const CATEGORIES = ['Keyboards', 'Switches', 'Keycaps', 'Accessories'];
+const CATEGORIES = ['Keyboards', 'Mouse', 'Headphone', 'Accessories'];
 
 const ProductCategorySelector = ({productCategory, setProductCategory}) => {
     const [open, setOpen] = useState(false);

@@ -1,8 +1,15 @@
 import { withAuth } from 'next-auth/middleware';
+import { NextResponse } from 'next/server';
 
 export default withAuth(
   function proxy(req) {
-    // custom logic here if needed later
+    const token = req.nextauth.token
+    console.log('TOKEN:', token);
+    const path = req.nextUrl.pathname
+
+    if(path.startsWith('/dashboard') && token?.role !== 'admin') {
+      return NextResponse.redirect(new URL('/', req.url))
+    }
   },
   {
     pages: {
