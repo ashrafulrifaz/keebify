@@ -17,8 +17,17 @@ const ProductCard = ({ item }) => {
         fetch(`http://localhost:3001/cart?email=${encodeURIComponent(email)}`)
             .then((r) => r.json())
             .then((data) => {
-                const ids = data?.productIds || data?.items?.map((it) => it.productId) || [];
-                setAddedIds(ids);
+                const ids = []
+                if (Array.isArray(data)) {
+                    data.forEach((doc) => {
+                        if (Array.isArray(doc?.items)) {
+                            doc.items.forEach((it) => {
+                                if (Array.isArray(it?.productIds)) ids.push(...it.productIds)
+                            })
+                        }
+                    })
+                }
+                setAddedIds([...new Set(ids)])
             })
             .catch(() => {});
     }, [session?.user?.email]);
@@ -45,7 +54,7 @@ const ProductCard = ({ item }) => {
                 body: JSON.stringify({
                     userEmail: session.user.email,
                     item: [
-                        {productIds: [_id], productQuantity: 1}
+                        {productIds: [_id], quantity: 1}
                     ]
                 }),
             });
