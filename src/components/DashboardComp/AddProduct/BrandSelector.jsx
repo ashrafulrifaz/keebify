@@ -6,6 +6,7 @@ const BRANDS = [
     'Keychron',
     'Ducky',
     'Royal Kludge',
+    "AJAZZ",
     'Akko',
     'Logitech',
     'Razer',

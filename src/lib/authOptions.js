@@ -17,13 +17,12 @@ export const authOptions = {
                         body: JSON.stringify(credentials),
                     });
 
-                    console.log('LOGIN STATUS:', res.status);
                     const body = await res.clone().json().catch(() => null);
-                    console.log('LOGIN BODY:', body);
 
                     if (!res.ok) return null;
 
                     const user = await res.json();
+                    console.log('User from authorize:', user);
                     return user || null;
                 } catch (err) {
                     console.error('Authorize error:', err);

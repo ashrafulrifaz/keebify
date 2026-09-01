@@ -1,16 +1,13 @@
 'use client'
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 const MIN = 0;
 const MAX = 1000;
 
-const PriceRange = () => {
-    const [minValue, setMinValue] = useState(50);
-    const [maxValue, setMaxValue] = useState(500);
+const PriceRange = ({ minValue = 50, maxValue = 500, onMinChange, onMaxChange, onReset }) => {
 
     const resetValue = () => {
-        setMinValue(50);
-        setMaxValue(500);
+        if (onReset) onReset();
     };
 
     const getPercent = useCallback(
@@ -23,22 +20,22 @@ const PriceRange = () => {
 
     const handleMinSlider = (e) => {
         const value = Math.min(Number(e.target.value), maxValue - 1);
-        setMinValue(value);
+        if (onMinChange) onMinChange(value);
     };
 
     const handleMaxSlider = (e) => {
         const value = Math.max(Number(e.target.value), minValue + 1);
-        setMaxValue(value);
+        if (onMaxChange) onMaxChange(value);
     };
 
     const handleMinInput = (e) => {
         const value = Math.min(Number(e.target.value), maxValue - 1);
-        setMinValue(value);
+        if (onMinChange) onMinChange(value);
     };
 
     const handleMaxInput = (e) => {
         const value = Math.max(Number(e.target.value), minValue + 1);
-        setMaxValue(value);
+        if (onMaxChange) onMaxChange(value);
     };
 
     return (

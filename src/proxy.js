@@ -6,8 +6,6 @@ export default withAuth(
     const token = req.nextauth.token
     const path = req.nextUrl.pathname
 
-    console.log('TOKEN:', token);
-
     if(path.startsWith('/dashboard') && token?.role !== 'admin') {
       return NextResponse.redirect(new URL('/', req.url))
     }

@@ -6,8 +6,8 @@ const ProductCard = ({ item }) => {
 
     return (
         <div className='h-full flex flex-col'>
-            <Link href={`/products/${_id}`} className='bg-[#eaeaea] px-2 rounded-xl h-60 flex flex-col justify-center'>
-                <Image src={item?.photos[0]} alt='keyboard image' width={300} height={200} />
+            <Link href={`/products/${_id}`} className='bg-[#eaeaea] px-2 rounded-xl max-h-60 flex flex-col justify-center overflow-hidden'>
+                <Image src={item?.photos[0]} alt='keyboard image' width={300} height={200} className='w-full h-auto' />
             </Link>
             <div className='mt-5 flex flex-col flex-1'>
                 <div>
