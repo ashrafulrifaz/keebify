@@ -49,15 +49,19 @@ const ProductCard = ({ item }) => {
                     ]
                 }),
             });
+            console.log(res)
             if (res.ok) {
                 setAddedIds((prev) => [...prev, _id]);
                 gooeyToast.success('Added to cart');
             } else {
                 const err = await res.json().catch(() => ({}));
-                console.error('Add to cart failed:', err);
-                gooeyToast.error('Failed to add to cart', {
-                    description: 'Please try again later.',
-                });
+                if (res.status === 409) {
+                    gooeyToast.warning('Already in cart', { description: err.message });
+                } else {
+                    gooeyToast.error('Failed to add to cart', {
+                        description: 'Please try again later.',
+                    });
+                }
             }
         } catch (err) {
             console.error('Add to cart error:', err);
