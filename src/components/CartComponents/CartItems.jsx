@@ -3,16 +3,17 @@
 import useCartItems from "@/hooks/useCartItems";
 import useProducts from "@/hooks/useProducts";
 import Image from "next/image";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const MIN_QTY = 1;
 const MAX_QTY = 10;
 
 const CartItems = () => {
     const {isPending, cartItems} = useCartItems() || {}
+    const [cartProducts, setCartProducts] = useState([])
     const {products} = useProducts() || {}
 
-    const cartProducts = useMemo(() => {
+    const initialCartProducts = useMemo(() => {
         if (!Array.isArray(products)) return []
 
         const quantityById = new Map()
@@ -62,6 +63,24 @@ const CartItems = () => {
             .filter(Boolean)
     }, [cartItems, products])
 
+
+    useEffect(() => {
+        setCartProducts(initialCartProducts)
+    }, [initialCartProducts])
+
+    const updateQuantity = (id, next) => {
+        setCartProducts((prev) =>
+            prev.map((item) =>
+                item.id === id
+                    ? { ...item, productQuantity: Math.min(MAX_QTY, Math.max(MIN_QTY, next)) }
+                    : item
+            )
+        )
+    }
+
+    const increase = (item) => updateQuantity(item.id, (item.productQuantity ?? 1) + 1)
+    const decrease = (item) => updateQuantity(item.id, (item.productQuantity ?? 1) - 1)
+
     return (
         <div className='col-span-2'>
             <h3 className='capitalize text-lg font-medium'>my cart</h3>
@@ -71,8 +90,9 @@ const CartItems = () => {
                         <div className="flex items-center justify-center py-5">
                             <iframe src="https://lottie.host/embed/94bb6a42-b12e-4a8b-8bd1-0af0390a672a/Hu4o03fLLF.json" width={500} height={400}></iframe>
                         </div>
-                    ) 
-                    : 
+                    ) : null
+                }
+                {
                     cartProducts.map((item) => (
                         <div key={item.id} className="flex items-center gap-5 py-3">
                             <div className="w-5 h-5 rounded-md border-[1.5px] border-primary/30 shrink-0" />
@@ -91,13 +111,23 @@ const CartItems = () => {
                             </div>
 
                             <div className="inline-flex items-center gap-1 border-[1.5px] border-border bg-secondary rounded-2xl p-1 shrink-0">
-                                <button type="button" className="w-8 h-8 flex items-center justify-center rounded-xl bg-border text-[#1a1a1a] text-lg cursor-pointer">
+                                <button
+                                    type="button"
+                                    onClick={() => decrease(item)}
+                                    disabled={item.productQuantity <= MIN_QTY}
+                                    className="w-8 h-8 flex items-center justify-center rounded-xl bg-border text-[#1a1a1a] text-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
                                     -
                                 </button>
                                 <span className="w-6 text-center text-[15px] font-medium text-[#1a1a1a]">
                                     {item.productQuantity}
                                 </span>
-                                <button type="button" className="w-8 h-8 flex items-center justify-center rounded-xl bg-border text-[#1a1a1a] text-lg cursor-pointer">
+                                <button
+                                    type="button"
+                                    onClick={() => increase(item)}
+                                    disabled={item.productQuantity >= MAX_QTY}
+                                    className="w-8 h-8 flex items-center justify-center rounded-xl bg-border text-[#1a1a1a] text-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
                                     +
                                 </button>
                             </div>
