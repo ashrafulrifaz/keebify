@@ -15,6 +15,7 @@ const ProductsContainer = ({}) => {
     const [maxPrice, setMaxPrice] = useState(400)
     const [selectedBrands, setSelectedBrands] = useState([])
     const [selectedTypes, setSelectedTypes] = useState([])
+    const [searchTerm, setSearchTerm] = useState('')
 
     const toggleBrand = (brand) => {
         setSelectedBrands((prev) =>
@@ -49,16 +50,22 @@ const ProductsContainer = ({}) => {
                 if (!matches) return false
             }
 
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase()
+                const haystack = `${item?.name || ''} ${item?.brand || ''} ${item?.category || ''}`.toLowerCase()
+                if (!haystack.includes(term)) return false
+            }
+
             return true
         })
-    }, [products, activeCategory, minPrice, maxPrice, selectedBrands, selectedTypes])
+    }, [products, activeCategory, minPrice, maxPrice, selectedBrands, selectedTypes, searchTerm])
 
     return (
         <div>
             <div className="grid grid-cols-2 gap-5 justify-between">
                 <ProductCategories active={activeCategory} onSelect={(category) => setActiveCategory(category.id)} />
                 <div className="flex justify-end">
-                    <SearchProducts />
+                    <SearchProducts value={searchTerm} onChange={setSearchTerm} />
                 </div>
             </div>
 
