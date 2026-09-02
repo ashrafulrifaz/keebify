@@ -1,16 +1,12 @@
 import CheckoutSteps from '@/components/CartComponents/CheckoutSteps';
-import CheckoutInfos from '@/components/CheckoutComponent/CheckoutInfos';
-import CheckoutSummary from '@/components/CheckoutComponent/CheckoutSummary';
+import CheckoutContainer from '@/components/CheckoutComponent/CheckoutContainer';
 import React from 'react';
 
 const page = () => {
     return (
         <div className="px-12 pb-5">
             <CheckoutSteps step={2} />
-            <div className="grid grid-cols-3 gap-5">
-                <CheckoutInfos />
-                <CheckoutSummary />
-            </div>
+            <CheckoutContainer />
         </div>
     );
 };
